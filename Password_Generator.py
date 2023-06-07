@@ -26,7 +26,7 @@ def pass_gen():
   
   print("\nPassword: ")
   print("".join(pass_output))
-  print("_" * 50)
+  print("_" * terminal_width)
 
   pass_gen()
 
