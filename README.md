@@ -6,4 +6,6 @@ Password Generator - Password_Generator.py
 
 Password Encryption / Decryption - Password_Cryptopgrahy.py
 
-PassMan is an updated version coming with a built in Password Manager, plus all of the features you see here.
+# Coming Soon
+
+**PassMan is an updated version coming in the near future with a built in Password Manager, plus all of the features you see here.**
