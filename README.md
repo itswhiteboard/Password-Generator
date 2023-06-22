@@ -5,3 +5,5 @@ A simple password generator written in Python. Feel free to use if you would lik
 Password Generator - Password_Generator.py
 
 Password Encryption / Decryption - Password_Cryptopgrahy.py
+
+PassMan is an updated version coming with a built in Password Manager, plus all of the features you see here.
