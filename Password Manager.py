@@ -7,21 +7,15 @@ root.resizable(width=True, height=True)
 
 def pass_man():
 
-    root.title("OpenPM | Password Manager")
-
-    title_header.pack_forget()
-    desc_text.pack_forget()
-    passman_button.pack_forget()
-    passgen_button.pack_forget()
-    encrypt_button.pack_forget()
-    decrypt_button.pack_forget()
-
-    title_header5 = tk.Label(root, text="Password Manager", font=("Arial", 30))
-    disclaimer = tk.Label(root, text="DISCLAIMER: Passwords are stored locally in your computer's filesystem. Note this before using!", font=("Arial", 12), bg="red")
-    instruction6 = tk.Label(root, text="", font=("Arial", 12))
-
-    title_header5.pack(padx=20, pady=20)
-    disclaimer.pack()
+    def back_button():
+        back_button.pack_forget()
+        title_header5.pack_forget()
+        disclaimer.pack_forget()
+        instruction6.pack_forget()
+        create_vault.pack_forget()
+        create_vault_button.pack_forget()
+        enter_vault_button.pack_forget()
+        main_page()
 
     def add_vault():
 
@@ -37,7 +31,43 @@ def pass_man():
         instruction7.pack()
         user_entry7.pack()
 
+    root.title("OpenPM | Password Manager")
+
+    title_header.pack_forget()
+    desc_text.pack_forget()
+    passman_button.pack_forget()
+    passgen_button.pack_forget()
+    encrypt_button.pack_forget()
+    decrypt_button.pack_forget()
+
+    back_button = tk.Button(root, text="<--", font=("Arial", 10), command=back_button)
+
+    title_header5 = tk.Label(root, text="Password Manager", font=("Arial", 30))
+    disclaimer = tk.Label(root, text="DISCLAIMER: Passwords are stored locally in your computer's filesystem. Note this before using!", font=("Arial", 12), bg="red")
+    instruction6 = tk.Label(root, text="Vault Password", font=("Arial", 20))
+    create_vault = tk.Entry(root)
+    create_vault_button = tk.Button(root, text="Create Vault", font=("Arial", 12))
+    enter_vault_button = tk.Button(root, text="Enter Vault", font=("Arial", 12))
+
+    back_button.pack(pady=5)
+
+    title_header5.pack(padx=20, pady=20)
+    disclaimer.pack()
+    instruction6.pack(pady=10)
+    create_vault.pack()
+    create_vault_button.pack(pady=10)
+    enter_vault_button.pack(pady=10)
+
 def pass_gen():
+
+    def back_button():
+        back_button.pack_forget()
+        title_header2.pack_forget()
+        instruction.pack_forget()
+        user_entry.pack_forget()
+        generate_pass.pack_forget()
+        pass_output.pack_forget()
+        main_page()
 
     def get_input():
 
@@ -70,11 +100,15 @@ def pass_gen():
     encrypt_button.pack_forget()
     decrypt_button.pack_forget()
 
+    back_button = tk.Button(root, text="<--", font=("Arial", 10), command=back_button)
+
     title_header2 = tk.Label(root, text="Password Generator", font=("Arial", 30))
     instruction = tk.Label(root, text="Enter # of characters:")
     user_entry = tk.Entry(root)
     generate_pass = tk.Button(root, text="Generate Password", font=("Arial", 12), command=get_input)
     pass_output = tk.Label(root, text="Password: ", font=("Arial", 15))
+
+    back_button.pack(pady=5)
 
     title_header2.pack(padx=20, pady=20)
     instruction.pack()
@@ -83,6 +117,17 @@ def pass_gen():
     pass_output.pack(pady=20)
 
 def encrypt_pass():
+
+    def back_button():
+        back_button.pack_forget()
+        title_header3.pack_forget()
+        instruction2.pack_forget()
+        user_entry2.pack_forget()
+        instruction3.pack_forget()
+        user_entry3.pack_forget()
+        encrypt_pass.pack_forget()
+        pass_output2.pack_forget()
+        main_page()
 
     def get_input():
 
@@ -111,6 +156,8 @@ def encrypt_pass():
     encrypt_button.pack_forget()
     decrypt_button.pack_forget()
 
+    back_button = tk.Button(root, text="<--", font=("Arial", 10), command=back_button)
+
     title_header3 = tk.Label(root, text="Password Encryptor", font=("Arial", 30))
     instruction2 = tk.Label(root, text="Enter a password to encrypt:", font=("Arial", 12))
     user_entry2 = tk.Entry(root)
@@ -118,6 +165,8 @@ def encrypt_pass():
     user_entry3 = tk.Entry(root)
     encrypt_pass = tk.Button(root, text="Encrypt Password", font=("Arial", 12), command=get_input)
     pass_output2 = tk.Label(root, text="Password: ", font=("Arial", 15))
+
+    back_button.pack(pady=5)
 
     title_header3.pack(padx=20, pady=20)
     instruction2.pack()
@@ -128,6 +177,17 @@ def encrypt_pass():
     pass_output2.pack(pady=20)
 
 def decrypt_pass():
+
+    def back_button():
+        back_button.pack_forget()
+        title_header4.pack_forget()
+        instruction4.pack_forget()
+        user_entry4.pack_forget()
+        instruction5.pack_forget()
+        user_entry5.pack_forget()
+        decrypt_pass.pack_forget()
+        pass_output3.pack_forget()
+        main_page()
 
     def get_input():
 
@@ -156,6 +216,8 @@ def decrypt_pass():
     encrypt_button.pack_forget()
     decrypt_button.pack_forget()
 
+    back_button = tk.Button(root, text="<--", font=("Arial", 10), command=back_button)
+
     title_header4 = tk.Label(root, text="Password Decryptor", font=("Arial", 30))
     instruction4 = tk.Label(root, text="Enter a password to decrypt:", font=("Arial", 12))
     user_entry4 = tk.Entry(root)
@@ -163,6 +225,8 @@ def decrypt_pass():
     user_entry5 = tk.Entry(root)
     decrypt_pass = tk.Button(root, text="Decrypt Password", font=("Arial", 12), command=get_input)
     pass_output3 = tk.Label(root, text="Password: ", font=("Arial", 15))
+
+    back_button.pack(pady=5)
 
     title_header4.pack(padx=20, pady=20)
     instruction4.pack()
