@@ -67,9 +67,12 @@ def pass_gen():
         user_entry.pack_forget()
         generate_pass.pack_forget()
         pass_output.pack_forget()
+        generated_pass.pack_forget()
         main_page()
 
     def get_input():
+
+        global generated_pass
 
         user_input = user_entry.get()
 
@@ -118,6 +121,10 @@ def pass_gen():
 
 def encrypt_pass():
 
+    global encrypted_pass_list
+
+    encrypted_pass_list = []
+
     def back_button():
         back_button.pack_forget()
         title_header3.pack_forget()
@@ -127,7 +134,12 @@ def encrypt_pass():
         user_entry3.pack_forget()
         encrypt_pass.pack_forget()
         pass_output2.pack_forget()
+        delete_pass()
         main_page()
+
+    def delete_pass():
+        for encrypted_pass in encrypted_pass_list:
+            encrypted_pass.pack_forget()
 
     def get_input():
 
@@ -144,11 +156,18 @@ def encrypt_pass():
             shifted_char = char_list[shift_value % len(char_list)] # Goes to char_list and finds the new letter
             encrypt_output += shifted_char # Adds the shifted character to the output
 
-        encrypted_pass = tk.Label(text=encrypt_output, font=("Arial", 15))
+        encrypted_pass = tk.Label(root, text=encrypt_output, font=("Arial", 15))
         encrypted_pass.pack()
 
+        encrypted_pass_list.append(encrypted_pass)
+
+        print(len(encrypted_pass_list))
+
+        if len(encrypted_pass_list) >= 6:
+            exit()
+
     root.title("OpenPM | Password Encryptor")
-    
+
     title_header.pack_forget()
     desc_text.pack_forget()
     passman_button.pack_forget()
@@ -156,7 +175,7 @@ def encrypt_pass():
     encrypt_button.pack_forget()
     decrypt_button.pack_forget()
 
-    back_button = tk.Button(root, text="<--", font=("Arial", 10), command=back_button)
+    back_button = tk.Button(root, text="<--", command=back_button)
 
     title_header3 = tk.Label(root, text="Password Encryptor", font=("Arial", 30))
     instruction2 = tk.Label(root, text="Enter a password to encrypt:", font=("Arial", 12))
@@ -166,7 +185,7 @@ def encrypt_pass():
     encrypt_pass = tk.Button(root, text="Encrypt Password", font=("Arial", 12), command=get_input)
     pass_output2 = tk.Label(root, text="Password: ", font=("Arial", 15))
 
-    back_button.pack(pady=5)
+    back_button.pack()
 
     title_header3.pack(padx=20, pady=20)
     instruction2.pack()
@@ -187,24 +206,27 @@ def decrypt_pass():
         user_entry5.pack_forget()
         decrypt_pass.pack_forget()
         pass_output3.pack_forget()
+        decrypted_pass.pack_forget()
         main_page()
 
     def get_input():
+
+        global decrypted_pass
 
         user_input = user_entry4.get()
         shift_input = user_entry5.get()
 
         char_list = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "-", "_", "+", "=", "{", "[", "}", "]", "|"]
 
-        encrypt_output = ""
+        decrypt_output = ""
   
         for char in user_input:
             value = char_list.index(char) # Finds the corresponding number of the letter in the input
             shift_value = value - int(shift_input) # Adds the value of the corresponding number to the shift
             shifted_char = char_list[shift_value % len(char_list)] # Goes to char_list and finds the new letter
-            encrypt_output += shifted_char # Adds the shifted character to the output
+            decrypt_output += shifted_char # Adds the shifted character to the output
 
-        decrypted_pass = tk.Label(text=encrypt_output, font=("Arial", 15))
+        decrypted_pass = tk.Label(text=decrypt_output, font=("Arial", 15))
         decrypted_pass.pack()
 
     root.title("OpenPM | Password Decryptor")
