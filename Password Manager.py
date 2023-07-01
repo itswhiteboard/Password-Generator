@@ -7,29 +7,61 @@ root.resizable(width=True, height=True)
 
 def pass_man():
 
+    # Later add every module to a list and then pack forget them like you did the passwords 
+
     def back_button():
         back_button.pack_forget()
         title_header5.pack_forget()
         disclaimer.pack_forget()
         instruction6.pack_forget()
-        create_vault.pack_forget()
+        create_vaul.pack_forget()
         create_vault_button.pack_forget()
         enter_vault_button.pack_forget()
         main_page()
 
-    def add_vault():
+    def create_vault():
+
+        def back_button2():
+            back_button2.pack_forget()
+            title_header6.pack_forget()
+            instruction7.pack_forget()
+            user_entry6.pack_forget()
+            instruction8.pack_forget()
+            user_entry7.pack_forget()
+            submit_password.pack_forget()
+            main_page()
+
+        user_input = create_vaul.get()
+
+        print(user_input)
+
+        back_button.pack_forget()
+        title_header5.pack_forget()
+        disclaimer.pack_forget()
+        instruction6.pack_forget()
+        create_vaul.pack_forget()
+        create_vault_button.pack_forget()
+        enter_vault_button.pack_forget()
+
+        back_button2 = tk.Button(root, text="<--", font=("Arial", 10), command=back_button2)
 
         title_header6 = tk.Label(root, text="Password Manager", font=("Arial", 30))
-        instruction6 = tk.Label(root, text="Enter Password", font=("Arial", 12))
+        instruction7 = tk.Label(root, text="Enter Password", font=("Arial", 12))
         user_entry6 = tk.Entry(root)
-        instruction7 = tk.Label(root, text="Enter Website", font=("Arial", 12))
+        instruction8 = tk.Label(root, text="Enter Website", font=("Arial", 12))
         user_entry7 = tk.Entry(root)
+        submit_password = tk.Button(root, text="Submit Password", font=("Arial", 15))
+
+        back_button2.pack()
 
         title_header6.pack(padx=20, pady=20)
-        instruction6.pack()
-        user_entry6.pack()
         instruction7.pack()
+        user_entry6.pack()
+        instruction8.pack()
         user_entry7.pack()
+        submit_password.pack()
+    
+    # def enter_vault():
 
     root.title("OpenPM | Password Manager")
 
@@ -45,20 +77,24 @@ def pass_man():
     title_header5 = tk.Label(root, text="Password Manager", font=("Arial", 30))
     disclaimer = tk.Label(root, text="DISCLAIMER: Passwords are stored locally in your computer's filesystem. Note this before using!", font=("Arial", 12), bg="red")
     instruction6 = tk.Label(root, text="Vault Password", font=("Arial", 20))
-    create_vault = tk.Entry(root)
-    create_vault_button = tk.Button(root, text="Create Vault", font=("Arial", 12))
-    enter_vault_button = tk.Button(root, text="Enter Vault", font=("Arial", 12))
+    create_vaul = tk.Entry(root)
+    create_vault_button = tk.Button(root, text="Create Vault", font=("Arial", 12), command=create_vault)
+    enter_vault_button = tk.Button(root, text="Enter Vault", font=("Arial", 12)) # command = enter_vault goes here!
 
     back_button.pack(pady=5)
 
     title_header5.pack(padx=20, pady=20)
     disclaimer.pack()
     instruction6.pack(pady=10)
-    create_vault.pack()
+    create_vaul.pack()
     create_vault_button.pack(pady=10)
     enter_vault_button.pack(pady=10)
 
 def pass_gen():
+
+    global generated_pass_list
+
+    generated_pass_list = []
 
     def back_button():
         back_button.pack_forget()
@@ -68,7 +104,13 @@ def pass_gen():
         generate_pass.pack_forget()
         pass_output.pack_forget()
         generated_pass.pack_forget()
+        delete_pass()
+        generated_pass_list = []
         main_page()
+
+    def delete_pass():
+        for generated_pass in generated_pass_list:
+            generated_pass.pack_forget()
 
     def get_input():
 
@@ -93,6 +135,11 @@ def pass_gen():
 
         generated_pass = tk.Label(text=pass_output, font=("Arial", 15))
         generated_pass.pack()
+
+        generated_pass_list.append(generated_pass)
+
+        if len(generated_pass_list) >= 6:
+            exit()
 
     root.title("OpenPM | Password Generator")
 
@@ -135,6 +182,7 @@ def encrypt_pass():
         encrypt_pass.pack_forget()
         pass_output2.pack_forget()
         delete_pass()
+        encrypted_pass_list = []
         main_page()
 
     def delete_pass():
@@ -197,6 +245,10 @@ def encrypt_pass():
 
 def decrypt_pass():
 
+    global decrypted_pass_list
+
+    decrypted_pass_list = []
+
     def back_button():
         back_button.pack_forget()
         title_header4.pack_forget()
@@ -207,7 +259,13 @@ def decrypt_pass():
         decrypt_pass.pack_forget()
         pass_output3.pack_forget()
         decrypted_pass.pack_forget()
+        delete_pass()
+        decrypted_pass_list = []
         main_page()
+
+    def delete_pass():
+        for decrypted_pass in decrypted_pass_list:
+            decrypted_pass.pack_forget()
 
     def get_input():
 
@@ -228,6 +286,13 @@ def decrypt_pass():
 
         decrypted_pass = tk.Label(text=decrypt_output, font=("Arial", 15))
         decrypted_pass.pack()
+
+        decrypted_pass_list.append(decrypted_pass)
+
+        print(len(decrypted_pass_list))
+
+        if len(decrypted_pass_list) >= 6:
+            exit()
 
     root.title("OpenPM | Password Decryptor")
     
