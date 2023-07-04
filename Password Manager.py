@@ -1,3 +1,4 @@
+import os
 import random
 import tkinter as tk
 
@@ -14,7 +15,9 @@ def pass_man():
         title_header5.pack_forget()
         disclaimer.pack_forget()
         instruction6.pack_forget()
-        create_vaul.pack_forget()
+        vault_name.pack_forget()
+        instruction7.pack_forget()
+        vault_pass.pack_forget()
         create_vault_button.pack_forget()
         enter_vault_button.pack_forget()
         main_page()
@@ -31,36 +34,47 @@ def pass_man():
             submit_password.pack_forget()
             main_page()
 
-        user_input = create_vaul.get()
+        user_input = vault_name.get()
+        user_input = user_input.replace(" ", "-")
+        user_input2 = vault_pass.get()
 
-        print(user_input)
+        print(f"Vault Name: {user_input}")
+        print(f"Vault Password: {user_input2}")
+
+        os.system(f"mkdir ~/Documents/{user_input}")
+        os.system(f"cd ~/Documents/{user_input}")
+
+        with open('vault.txt', 'w') as f:
+            f.write("Hello World!")
 
         back_button.pack_forget()
         title_header5.pack_forget()
         disclaimer.pack_forget()
         instruction6.pack_forget()
-        create_vaul.pack_forget()
+        vault_name.pack_forget()
+        instruction7.pack_forget()
+        vault_pass.pack_forget()
         create_vault_button.pack_forget()
         enter_vault_button.pack_forget()
 
         back_button2 = tk.Button(root, text="<--", font=("Arial", 10), command=back_button2)
 
         title_header6 = tk.Label(root, text="Password Manager", font=("Arial", 30))
-        instruction7 = tk.Label(root, text="Enter Password", font=("Arial", 12))
+        instruction8 = tk.Label(root, text="Enter Password", font=("Arial", 12))
         user_entry6 = tk.Entry(root)
-        instruction8 = tk.Label(root, text="Enter Website", font=("Arial", 12))
+        instruction9 = tk.Label(root, text="Enter Website", font=("Arial", 12))
         user_entry7 = tk.Entry(root)
         submit_password = tk.Button(root, text="Submit Password", font=("Arial", 15))
 
         back_button2.pack()
 
         title_header6.pack(padx=20, pady=20)
-        instruction7.pack()
-        user_entry6.pack()
         instruction8.pack()
+        user_entry6.pack()
+        instruction9.pack()
         user_entry7.pack()
         submit_password.pack()
-    
+
     # def enter_vault():
 
     root.title("OpenPM | Password Manager")
@@ -76,8 +90,10 @@ def pass_man():
 
     title_header5 = tk.Label(root, text="Password Manager", font=("Arial", 30))
     disclaimer = tk.Label(root, text="DISCLAIMER: Passwords are stored locally in your computer's filesystem. Note this before using!", font=("Arial", 12), bg="red")
-    instruction6 = tk.Label(root, text="Vault Password", font=("Arial", 20))
-    create_vaul = tk.Entry(root)
+    instruction6 = tk.Label(root, text="Vault Name", font=("Arial", 20))
+    vault_name = tk.Entry(root)
+    instruction7 = tk.Label(root, text="Vault Password", font=("Arial", 20))
+    vault_pass = tk.Entry(root)
     create_vault_button = tk.Button(root, text="Create Vault", font=("Arial", 12), command=create_vault)
     enter_vault_button = tk.Button(root, text="Enter Vault", font=("Arial", 12)) # command = enter_vault goes here!
 
@@ -86,7 +102,9 @@ def pass_man():
     title_header5.pack(padx=20, pady=20)
     disclaimer.pack()
     instruction6.pack(pady=10)
-    create_vaul.pack()
+    vault_name.pack()
+    instruction7.pack(pady=10)
+    vault_pass.pack()
     create_vault_button.pack(pady=10)
     enter_vault_button.pack(pady=10)
 
@@ -103,7 +121,6 @@ def pass_gen():
         user_entry.pack_forget()
         generate_pass.pack_forget()
         pass_output.pack_forget()
-        generated_pass.pack_forget()
         delete_pass()
         generated_pass_list = []
         main_page()
