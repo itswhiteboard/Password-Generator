@@ -46,7 +46,6 @@ def pass_man():
 
         create_table_query = '''
         CREATE TABLE IF NOT EXISTS vault (
-            id INTEGER PRIMARY KEY,
             vault_name TEXT,
             vault_pass TEXT
         );
@@ -68,6 +67,8 @@ def pass_man():
 
     def enter_vault():
 
+        global website, password
+
         def forget_enter_vault():
             back_button2.pack_forget()
             title_header6.pack_forget()
@@ -81,8 +82,40 @@ def pass_man():
             forget_enter_vault()
             pass_man()
 
-        # if vault name and vault passs in sql database is correct, continue:
-        # else, invalid warning
+        def add_password():
+
+            user_input = vault_name.get()
+
+            website = user_entry6.get()
+            password = user_entry7.get()
+
+            user_input = user_input.replace(" ", "-")
+
+            db = sqlite3.connect(f'{user_input}.sql')
+            cursor = db.cursor()
+
+            create_table_query = f'''
+            CREATE TABLE IF NOT EXISTS {user_entry6} (
+                website TEXT,
+                password TEXT
+            );
+            '''
+
+            insert_query = f"INSERT INTO {user_entry6} (website, password) VALUES (?, ?)"
+            values = (f"{website}", f"{password}",)
+
+            cursor.execute(create_table_query)
+            cursor.execute(insert_query, values)
+
+            db.commit()
+
+            cursor.close()
+            db.close()
+
+            vault_name.delete(0, tk.END)
+            vault_pass.delete(0, tk.END)
+
+            enter_vault()
 
         user_input = vault_name.get()
         user_input2 = vault_pass.get()
@@ -97,10 +130,10 @@ def pass_man():
             pass
         elif os.path.exists(f'{user_input}.sql') == False:
             print(f"{user_input} doesn't exist, please try again.")
-            return 0 
+            return 1
         elif os.path.exists(f'{user_input}.sql') == True:
             print(f"{user_input} already exists, please try again.")
-            return 0
+            return 1
         else:
             pass
 
@@ -113,32 +146,43 @@ def pass_man():
         cursor.execute(select_query, (user_input, user_input2))
         result = cursor.fetchone()
 
-        print(result)
-
-        #Check to see if the vault name and vault pass exists in the database
-        # Check if they are correct
-
-        ###########################################
+        if result == (user_input, user_input2):
+            pass
+        else:
+            return 1
+        
+        cursor.close()
+        db.close()
 
         forget_pass_man()
 
         back_button2 = tk.Button(root, text="<--", font=("Arial", 10), command=back_button)
 
         title_header6 = tk.Label(root, text="Password Manager", font=("Arial", 30))
-        instruction8 = tk.Label(root, text="Enter Password", font=("Arial", 12))
+        instruction8 = tk.Label(root, text="Enter Website", font=("Arial", 12))
         user_entry6 = tk.Entry(root)
-        instruction9 = tk.Label(root, text="Enter Website", font=("Arial", 12))
+        instruction9 = tk.Label(root, text="Enter Password", font=("Arial", 12))
         user_entry7 = tk.Entry(root)
-        submit_password = tk.Button(root, text="Submit Password", font=("Arial", 15))
+        submit_password = tk.Button(root, text="Submit Password", font=("Arial", 15), command=add_password)
 
         back_button2.pack()
 
-        title_header6.pack(padx=20, pady=20)
+        title_header6.pack()
         instruction8.pack()
         user_entry6.pack()
         instruction9.pack()
         user_entry7.pack()
-        submit_password.pack()
+        submit_password.pack(pady=10)
+
+        db = sqlite3.connect(f'{user_input}.sql')
+        cursor = db.cursor()
+
+        select_query = f"SELECT * FROM {user_entry6} WHERE {website} = ? AND  {password} = ?"
+        
+        cursor.execute(select_query, (user_input, user_input2))
+        result = cursor.fetchone()
+
+        add_password()
 
     root.title("OpenPM | Password Manager")
 
@@ -180,23 +224,19 @@ def pass_gen():
         generate_pass.pack_forget()
         pass_output.pack_forget()
         delete_pass()
-        generated_pass_list = []
         main_page()
 
     def delete_pass():
 
         for generated_pass in generated_pass_list:
-            generated_pass.pack_forget()
-
-        #print generated pass to screen
-        #if button is pressed generated new button (if list is over 2)
-        #then pack destroy the last password and delete it from the list
-        # print the new generated password to screen
+            generated_pass.destroy()
+            generated_pass_list.remove(generated_pass)
             
-
     def get_input():
 
         global generated_pass
+
+        delete_pass()
 
         user_input = user_entry.get()
 
@@ -219,9 +259,6 @@ def pass_gen():
         generated_pass.pack()
 
         generated_pass_list.append(generated_pass)
-
-        if len(generated_pass_list) >= 6:
-            delete_pass()
 
     root.title("OpenPM | Password Generator")
 
@@ -258,20 +295,19 @@ def encrypt_pass():
         user_entry3.pack_forget()
         encrypt_pass.pack_forget()
         pass_output2.pack_forget()
-        delete_pass_button.pack_forget() 
         delete_pass()
-        encrypted_pass_list = []
         main_page()
 
     def delete_pass():
         for encrypted_pass in encrypted_pass_list:
-            encrypted_pass.pack_forget()
-        encrypted_pass_list.clear()
-        delete_pass_button.pack_forget()
+            encrypted_pass.destroy()
+            encrypted_pass_list.remove(encrypted_pass)
 
     def get_input():
 
-        global delete_pass_button
+        global encrypted_pass
+
+        delete_pass()
 
         user_input = user_entry2.get()
         shift_input = user_entry3.get()
@@ -290,15 +326,7 @@ def encrypt_pass():
         encrypted_pass.pack()
 
         encrypted_pass_list.append(encrypted_pass)
-
-        print(len(encrypted_pass_list))
-
-        if len(encrypted_pass_list) >= 6:
-            delete_pass_button = tk.Button(root, text="Delete Passwords", font=("Arial", 10), command=delete_pass)
-            delete_pass_button.pack()
-            return
             
-
     root.title("OpenPM | Password Encryptor")
 
     title_header.pack_forget()
@@ -344,16 +372,18 @@ def decrypt_pass():
         decrypt_pass.pack_forget()
         pass_output3.pack_forget()
         delete_pass()
-        decrypted_pass_list = []
         main_page()
 
     def delete_pass():
         for decrypted_pass in decrypted_pass_list:
-            decrypted_pass.pack_forget()
+            decrypted_pass.destroy()
+            decrypted_pass_list.remove(decrypted_pass)
 
     def get_input():
 
         global decrypted_pass
+
+        delete_pass()
 
         user_input = user_entry4.get()
         shift_input = user_entry5.get()
@@ -372,11 +402,6 @@ def decrypt_pass():
         decrypted_pass.pack()
 
         decrypted_pass_list.append(decrypted_pass)
-
-        print(len(decrypted_pass_list))
-
-        if len(decrypted_pass_list) >= 6:
-            exit()
 
     root.title("OpenPM | Password Decryptor")
     
