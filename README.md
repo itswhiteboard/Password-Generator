@@ -2,14 +2,17 @@
 
 All of this is highly experimental and is not for public use yet. You have been warned!
 
-# Password Generator
+# Files 
 
-A simple password generator written in Python. Feel free to use if you would like! This repository also comes with another file that lets you encrypt your password for extra protection. It is just a simple "Ceaser-Cipher" however, so the encryption is not very fancy. But the passwords generated from these python files are still very strong, and are enough to protect you from most hacks. 
+docs - Includes documentation in HTML for OpenPM
+exec - Includes the executables for OpenPM
+src - Includes the source code for OpenPM
 
-Password Generator - Password_Generator.py
+# How To Download
 
-Password Encryption / Decryption - Password_Cryptopgrahy.py
+1. Go to the exec (executables) folder, and install the zipped folder for your operating system.
+2. Right click the downloaded folder in your file manager and unzip the folder.
+3. Run the executable and use OpenPM.
 
-# Coming Soon
-
-**PassMan is an updated version coming in the near future with a built in Password Manager, plus all of the features you see here.**
+Check the README.txt in the folder for instruction on how to create a desktop icon for OpenPM.
+Check the documentation for further instruction on how to use OpenPM.
