@@ -10,6 +10,8 @@ src - Includes the source code for OpenPM
 
 # How To Download
 
+Steps:
+
 1. Go to the exec (executables) folder, and install the zipped folder for your operating system.
 2. Right click the downloaded folder in your file manager and unzip the folder.
 3. Run the executable and use OpenPM.
