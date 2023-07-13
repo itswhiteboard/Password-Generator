@@ -16,5 +16,5 @@ Steps:
 2. Right click the downloaded folder in your file manager and unzip the folder.
 3. Run the executable and use OpenPM.
 
-Check the README.txt in the folder for instruction on how to create a desktop icon for OpenPM.
-Check the documentation for further instruction on how to use OpenPM.
+- Check the README.txt in the folder for instruction on how to create a desktop icon for OpenPM.
+- Check the documentation for further instruction on how to use OpenPM.
