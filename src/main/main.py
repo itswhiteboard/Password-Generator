@@ -14,6 +14,65 @@ def forget_main_page():
     passgen_button.pack_forget()
     encrypt_button.pack_forget()
     decrypt_button.pack_forget()
+    passlookup_button.pack_forget()
+
+def pass_lookup():
+
+    global pass_list
+
+    pass_list = []
+
+    def forget_pass_lookup():
+        back_button.pack_forget()
+        title_header.pack_forget()
+        instruction.pack_forget()
+        password.pack_forget()
+        lookup_button.pack_forget()
+
+    def back_button():
+        forget_pass_lookup()
+        delete_passwords()
+        main_page()
+
+    def delete_passwords():
+        for response in pass_list:
+            response.destroy()
+            pass_list.remove(response)
+
+    def search_passwords():
+
+        delete_passwords()
+
+        passw = password.get()
+
+        with open("password-data.txt", "r") as file:
+            data = file.read()
+            if passw in data:
+                response = tk.Label(root, text="Password leaked in data breach!", font=("Arial", 15))
+                response.pack(pady=10)
+                pass_list.append(response)
+            else:
+                response = tk.Label(root, text="Password not in any known data breach.", font=("Arial", 15))
+                response.pack(pady=10)
+                pass_list.append(response)
+
+    root.title("OpenPM | Password Lookup")
+
+    forget_main_page()
+
+    back_button = tk.Button(root, text="<--", font=("Arial", 10), command=back_button)
+
+    title_header = tk.Label(root, text="Password Lookup", font=("Arial", 20))
+    instruction = tk.Label(root, text="Enter a password:", font=("Arial", 15))
+    password = tk.Entry(root)
+    lookup_button = tk.Button(root, text="Lookup", command=search_passwords)
+
+    back_button.pack(pady=5)
+
+    title_header.pack(pady=10)
+    instruction.pack(pady=10)
+    password.pack(pady=10)
+    lookup_button.pack(pady=10)
 
 def pass_man():
 
@@ -116,19 +175,19 @@ def pass_man():
             vault_name.delete(0, tk.END)
             vault_pass.delete(0, tk.END)
 
-            select_query = f"SELECT * FROM {user_entry6_value} WHERE website = ? AND  password = ?"
+            #select_query = f"SELECT * FROM {user_entry6_value} WHERE website = ? AND  password = ?"
         
-            cursor.execute(select_query, (website, password))
-            result = cursor.fetchone()
+            #cursor.execute(select_query, (website, password))
+            #result = cursor.fetchone()
 
-            print(result)
+            #print(result)
 
-            db.commit()
+            #db.commit()
 
             cursor.close()
             db.close()
 
-            enter_vault()
+            #enter_vault()
 
         user_input = vault_name.get()
         user_input2 = vault_pass.get()
@@ -200,34 +259,18 @@ def pass_man():
 
             cursor.execute(f"SELECT * FROM {table_name}")
 
+            if "vault" in table_name:
+                continue
+
             results = cursor.fetchall()
 
             passwords = tk.Label(root, text=f"{results}", font=("Arial", 10))
 
             for row in results:
                 passwords.pack()
-                print(len(results))
                 
         cursor.close()
         db.close()
-
-        #website = user_entry6.get()
-        #password = user_entry7.get()
-
-        #db = sqlite3.connect(f'{user_input}.sql')
-        #cursor = db.cursor()
-
-        #select_query = f"SELECT * FROM {user_entry6} WHERE website = ? AND  password = ?"
-        
-        #cursor.execute(select_query, (website, password))
-        #result = cursor.fetchone()
-
-        #print(result)
-
-        #db.commit()
-
-        #cursor.close()
-        #db.close()
 
     root.title("OpenPM | Password Manager")
 
@@ -374,12 +417,7 @@ def encrypt_pass():
             
     root.title("OpenPM | Password Encryptor")
 
-    title_header.pack_forget()
-    desc_text.pack_forget()
-    passman_button.pack_forget()
-    passgen_button.pack_forget()
-    encrypt_button.pack_forget()
-    decrypt_button.pack_forget()
+    forget_main_page()
 
     back_button = tk.Button(root, text="<--", command=back_button)
 
@@ -450,12 +488,7 @@ def decrypt_pass():
 
     root.title("OpenPM | Password Decryptor")
     
-    title_header.pack_forget()
-    desc_text.pack_forget()
-    passman_button.pack_forget()
-    passgen_button.pack_forget()
-    encrypt_button.pack_forget()
-    decrypt_button.pack_forget()
+    forget_main_page()
 
     back_button = tk.Button(root, text="<--", font=("Arial", 10), command=back_button)
 
@@ -479,7 +512,7 @@ def decrypt_pass():
 
 def main_page():
 
-    global title_header, desc_text, passman_button, passgen_button, encrypt_button, decrypt_button
+    global title_header, desc_text, passlookup_button, passman_button, passgen_button, encrypt_button, decrypt_button
 
     root.title("OpenPM | Main Page")
 
@@ -487,6 +520,7 @@ def main_page():
 
     desc_text = tk.Label(root, text="OpenPM, the open source password manager written entirely in Python!", font=("Arial", 15)) 
 
+    passlookup_button = tk.Button(root, text="Password Lookup", font=("Arial", 20), command=pass_lookup)
     passman_button = tk.Button(root, text="Password Manager", font=("Arial", 20), command=pass_man)
     passgen_button = tk.Button(root, text="Password Generator", font=("Arial", 20), command=pass_gen)
     encrypt_button = tk.Button(root, text="Password Encryption", font=("Arial", 20), command=encrypt_pass)
@@ -494,6 +528,7 @@ def main_page():
 
     title_header.pack(padx=20, pady=20)
     desc_text.pack(pady=10)
+    passlookup_button.pack(pady=15)
     passman_button.pack(pady=15)
     passgen_button.pack(pady=15)
     encrypt_button.pack(pady=15)
