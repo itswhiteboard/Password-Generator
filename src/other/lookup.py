@@ -1,6 +1,9 @@
 import os
 import shutil
 
+# WARNING! This file requires breach.txt to be in the same
+# directory as this python file in order to properly function.
+
 def print_line():
     terminal_width = shutil.get_terminal_size().columns
     print("_" * terminal_width)
@@ -8,7 +11,7 @@ def print_line():
 def lookup_pass():
     password = input("Enter a password: ")
 
-    with open("password-data.txt", "r") as file:
+    with open("breach.txt", "r") as file:
         data = file.read()
         if password in data:
             print("\nPassword leaked in data breach!")
