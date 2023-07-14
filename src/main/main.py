@@ -45,7 +45,7 @@ def pass_lookup():
 
         passw = password.get()
 
-        with open("password-data.txt", "r") as file:
+        with open("breach.txt", "r") as file:
             data = file.read()
             if passw in data:
                 response = tk.Label(root, text="Password leaked in data breach!", font=("Arial", 15))
@@ -75,6 +75,8 @@ def pass_lookup():
     lookup_button.pack(pady=10)
 
 def pass_man():
+
+    password_list = []
 
     def forget_pass_man():
         back_button.pack_forget()
@@ -138,11 +140,14 @@ def pass_man():
             submit_password.pack_forget()
 
         def back_button():
-            for passwords in results: #Doesn't work, figure out fix!
-                passwords.destroy()
-                results.remove(passwords)
+            delete_passwords()
             forget_enter_vault()
             pass_man()
+
+        def delete_passwords():
+            for passwords in password_list: # For every password in password list
+                passwords.destroy() # Destroy that password
+            password_list.clear() # Then clear the password list
 
         def add_password():
 
@@ -175,35 +180,24 @@ def pass_man():
             vault_name.delete(0, tk.END)
             vault_pass.delete(0, tk.END)
 
-            #select_query = f"SELECT * FROM {user_entry6_value} WHERE website = ? AND  password = ?"
-        
-            #cursor.execute(select_query, (website, password))
-            #result = cursor.fetchone()
-
-            #print(result)
-
-            #db.commit()
-
             cursor.close()
             db.close()
-
-            #enter_vault()
 
         user_input = vault_name.get()
         user_input2 = vault_pass.get()
 
         user_input = user_input.replace(" ", "-")
 
-        directory = os.path.dirname(os.path.realpath(__file__))
+        directory = os.path.dirname(os.path.realpath(__file__)) # Gets the directory of the current python file
 
-        os.chdir(directory)
+        os.chdir(directory) # Changes the current directory to the directory of the current python file
 
-        if os.path.isfile(f'{user_input}.sql') == True:
-            pass
-        elif os.path.exists(f'{user_input}.sql') == False:
+        if os.path.isfile(f'{user_input}.sql') == True: # If SQL file is a file (not a directory)
+            pass # Continue
+        elif os.path.exists(f'{user_input}.sql') == False: # If SQL file doesn't exist
             print(f"{user_input} doesn't exist, please try again.")
             return 1
-        elif os.path.exists(f'{user_input}.sql') == True:
+        elif os.path.exists(f'{user_input}.sql') == True: 
             print(f"{user_input} already exists, please try again.")
             return 1
         else:
@@ -259,15 +253,16 @@ def pass_man():
 
             cursor.execute(f"SELECT * FROM {table_name}")
 
+            results = cursor.fetchall()
+
             if "vault" in table_name:
                 continue
 
-            results = cursor.fetchall()
-
             passwords = tk.Label(root, text=f"{results}", font=("Arial", 10))
 
-            for row in results:
-                passwords.pack()
+            for row in results: # For every row in results
+                passwords.pack() # Print password to screen
+                password_list.append(passwords) # Append password to password_list
                 
         cursor.close()
         db.close()
@@ -315,7 +310,6 @@ def pass_gen():
         main_page()
 
     def delete_pass():
-
         for generated_pass in generated_pass_list:
             generated_pass.destroy()
             generated_pass_list.remove(generated_pass)
